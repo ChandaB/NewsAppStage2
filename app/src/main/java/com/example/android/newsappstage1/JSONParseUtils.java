@@ -26,6 +26,8 @@ public class JSONParseUtils {
 
     public static final String LOG_TAG = JSONParseUtils.class.getName();
 
+
+
     public JSONParseUtils() {
     }
 
@@ -108,10 +110,10 @@ public class JSONParseUtils {
      * Return a list of {@link NewsStory} objects that has been built up from
      * parsing a JSON response.
      */
-    public static List<NewsStory> extractFromNewsStory(String storyJSON ) {
+    public static List<NewsStory> extractFromNewsStory(String jsonResponse ) {
 
         //If the JSON string is empty or null, then return early.
-        if (TextUtils.isEmpty( storyJSON )) {
+        if (TextUtils.isEmpty( jsonResponse )) {
             return null;
         }
 
@@ -124,10 +126,12 @@ public class JSONParseUtils {
         try {
 
             //Create a JSON Object from the JSON response string
-            JSONObject initialJsonResponse = new JSONObject( storyJSON );
+          JSONObject initialJsonResponse = new JSONObject( jsonResponse );
+          JSONObject response = initialJsonResponse.getJSONObject( "response" );
 
             //Extract the array associated with the features key
-            JSONArray storyArray = initialJsonResponse.getJSONArray( "results" );
+            JSONArray storyArray = response.getJSONArray( "results" );
+//            JSONArray storyArray = new JSONArray( jsonResponse );
 
 //            Loop through each feature in the array
             for (int i = 0; i < storyArray.length(); i++) {
@@ -135,16 +139,16 @@ public class JSONParseUtils {
 //            Get earthquake JSONObject at position i
                 JSONObject currentStory = storyArray.getJSONObject( i );
 
-                JSONObject section = currentStory.getJSONObject( "section" );
+//              JSONObject section = currentStory.getJSONObject( "section" );
 
-                String headline = section.getString( "webTitle" );
-                String date = section.getString( "webPublicationDate" );
-                String category = section.getString( "pillarName" );
-                String subcategory = section.getString( "sectionName" );
-                String url = section.getString( "webUrl" );
-                String author = section.getString( "author" );
+                String headline = currentStory.getString( "webTitle" );
+                String date = currentStory.getString( "webPublicationDate" );
+                String category = currentStory.getString( "pillarName" );
+                String subcategory = currentStory.getString( "sectionName" );
+                String url = currentStory.getString( "webUrl" );
+//                String author = currentStory.getString( "author" );
 
-                NewsStory story = new NewsStory( headline, date, category, subcategory, url, author );
+                NewsStory story = new NewsStory( headline, date, category, subcategory, url );
 
                 stories.add( story );
 
@@ -163,7 +167,7 @@ public class JSONParseUtils {
             // If an error is thrown when executing any of the above statements in the "try" block,
             // catch the exception here, so the app doesn't crash. Print a log message
             // with the message from the exception.
-            Log.e("QueryUtils", "Problem parsing the NewsStory JSON results", e);
+            Log.e("JSONParseUtils", "Problem parsing the NewsStory JSON results", e);
         }
 
         // Return the list of earthquakes
