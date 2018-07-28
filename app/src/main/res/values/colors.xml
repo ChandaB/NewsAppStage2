@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <!-- Text color for the News Headline in the list item -->
+    <color name="textColorNewsHeadline">#B4BAC0</color>
+
+    <!-- Text color for the news summary in the list item -->
+    <color name="textColorNewsDetail">#2B3D4D</color>
+</resources>
