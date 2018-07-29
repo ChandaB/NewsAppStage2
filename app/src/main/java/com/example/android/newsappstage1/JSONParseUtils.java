@@ -163,34 +163,14 @@ public class JSONParseUtils {
                     {
                         author = authorExistsCurrentStory.getString( "webTitle" );
                 }}}else {
-                        author = "No author for this news result";}
+                        author = "No author for this story";}
 
-/*                if (tagsArray != null) {
-                    author = tagsArray.getJSONObject( i ).getString( "webTitle" );
-
-                } else {
-                    author = "";
-                }*//*
-
-                //    }
-*/
                 NewsStory story = new NewsStory( headline, date, category, url, author );
 
                 stories.add( story );
 
 
             }
-
-
-//            Get “properties” JSONObject
-//            Extract “mag” for magnitude
-//            Extract “place” for location
-//            Extract “time” for time
-//            Create Earthquake java object from magnitude, location, and time
-//            Add earthquake to list of earthquakes
-/*/
-/*/
-
 
         } catch (JSONException e) {
             // If an error is thrown when executing any of the above statements in the "try" block,

@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">NewsApp Stage1</string>
+    <string name="sorry_no_news_stories_available">Sorry, No News Stories Available at this time. Please check back later.</string>
+    <string name="no_network">You currently have no network connection.\nPlease check your network.</string>
 </resources>
