@@ -11,31 +11,24 @@
     android:paddingStart="16dp">
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight=".2"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/category"
-            android:layout_width="40dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             tools:text="Category" />
-
-        <TextView
-            android:id="@+id/subcategory"
-            android:layout_width="40dp"
-            android:layout_height="wrap_content"
-            tools:text="Sub-Category" />
-
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
         android:layout_weight="1"
-        android:gravity="center_vertical"
         android:orientation="vertical">
 
         <TextView
@@ -44,7 +37,6 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-medium"
             android:maxLines="3"
-            android:textAllCaps="true"
             android:textColor="@color/textColorNewsHeadline"
             android:textSize="12sp"
             tools:text="News Headline" />
@@ -61,9 +53,10 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
         android:layout_gravity="center_vertical"
+        android:layout_weight=".3"
         android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
         android:orientation="vertical">

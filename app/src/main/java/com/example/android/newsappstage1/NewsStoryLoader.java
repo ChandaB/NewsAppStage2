@@ -31,6 +31,7 @@ public class NewsStoryLoader extends AsyncTaskLoader<List<NewsStory>> {
         }
 
         List<NewsStory> stories = JSONParseUtils.fetchStoryData( Url );
+
         return stories;
     }
 }

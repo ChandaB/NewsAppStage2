@@ -26,8 +26,6 @@ public class JSONParseUtils {
 
     public static final String LOG_TAG = JSONParseUtils.class.getName();
 
-
-
     public JSONParseUtils() {
     }
 
@@ -112,6 +110,8 @@ public class JSONParseUtils {
      */
     public static List<NewsStory> extractFromNewsStory(String jsonResponse ) {
 
+        String author = "";
+
         //If the JSON string is empty or null, then return early.
         if (TextUtils.isEmpty( jsonResponse )) {
             return null;
@@ -123,7 +123,10 @@ public class JSONParseUtils {
         // Try to parse the JSON string response. If there's a problem with the way the JSON
         // is formatted, a JSONException exception object will be thrown.
         // Catch the exception so the app doesn't crash, and print the error message to the logs.
-        try {
+
+
+
+		        try {
 
             //Create a JSON Object from the JSON response string
           JSONObject initialJsonResponse = new JSONObject( jsonResponse );
@@ -131,26 +134,50 @@ public class JSONParseUtils {
 
             //Extract the array associated with the features key
             JSONArray storyArray = response.getJSONArray( "results" );
+
 //            JSONArray storyArray = new JSONArray( jsonResponse );
 
 //            Loop through each feature in the array
             for (int i = 0; i < storyArray.length(); i++) {
-                Log.d( "STORYARRAY", storyArray.getString( i ));
+                int arraylength = storyArray.length();
+                Log.d( "ArrayLength ", Integer.toString( arraylength ) );
+                Log.d( "STORYARRAY", storyArray.getString( i ) );
 //            Get earthquake JSONObject at position i
                 JSONObject currentStory = storyArray.getJSONObject( i );
 
+                //JSONArray tagsArray = currentTag.getJSONArray( "tags" );
 //              JSONObject section = currentStory.getJSONObject( "section" );
 
                 String headline = currentStory.getString( "webTitle" );
                 String date = currentStory.getString( "webPublicationDate" );
                 String category = currentStory.getString( "pillarName" );
-                String subcategory = currentStory.getString( "sectionName" );
                 String url = currentStory.getString( "webUrl" );
-//                String author = currentStory.getString( "author" );
 
-                NewsStory story = new NewsStory( headline, date, category, subcategory, url );
+                JSONArray tagsArray = currentStory.getJSONArray("tags");
+                if(tagsArray != null && tagsArray.length() > 0) {
+                for (int n = 0; n < tagsArray.length(); n++) {
+                    Log.d( "TAGSCONTENT", tagsArray.getString( n ) );
+                    JSONObject authorExistsCurrentStory = tagsArray.getJSONObject( n );
+                    int tagsArraylength = tagsArray.length();
+                    Log.d( "TagsArrayLength", Integer.toString( tagsArraylength ) );
+                    {
+                        author = authorExistsCurrentStory.getString( "webTitle" );
+                }}}else {
+                        author = "No author for this news result";}
+
+/*                if (tagsArray != null) {
+                    author = tagsArray.getJSONObject( i ).getString( "webTitle" );
+
+                } else {
+                    author = "";
+                }*//*
+
+                //    }
+*/
+                NewsStory story = new NewsStory( headline, date, category, url, author );
 
                 stories.add( story );
+
 
             }
 
@@ -161,7 +188,9 @@ public class JSONParseUtils {
 //            Extract “time” for time
 //            Create Earthquake java object from magnitude, location, and time
 //            Add earthquake to list of earthquakes
-//*/
+/*/
+/*/
+
 
         } catch (JSONException e) {
             // If an error is thrown when executing any of the above statements in the "try" block,
@@ -169,6 +198,7 @@ public class JSONParseUtils {
             // with the message from the exception.
             Log.e("JSONParseUtils", "Problem parsing the NewsStory JSON results", e);
         }
+
 
         // Return the list of earthquakes
         return stories;

@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<L
 
     private NewsStoryListAdapter listAdapter;
 
-    String storyUrl = "https://content.guardianapis.com/search?q=Montreal&api-key=ddc3ebb7-dfc3-4307-9a14-8a73a96647c7";
+    String storyUrl = "https://content.guardianapis.com/search?order-by=newest&show-tags=contributor&q=Montreal&api-key=ddc3ebb7-dfc3-4307-9a14-8a73a96647c7";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

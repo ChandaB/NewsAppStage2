@@ -36,23 +36,6 @@ public class NewsStoryListAdapter extends ArrayAdapter<NewsStory> {
 
         NewsStory currentStory = getItem( position );
 
-/*
-        Date dateObject = new Date( currentStory.getDate() );
-
-        SimpleDateFormat dateFormatter = new SimpleDateFormat("MMMM dd, yyyy");
-        String dateToDisplay = dateFormatter.format(dateObject);
-
-        SimpleDateFormat timeFormatter = new SimpleDateFormat( "h:mm a" );
-        String timeToDisplay = timeFormatter.format( dateObject );
-
-
-        TextView dateTextView = listitemview.findViewById( R.id.date );
-        dateTextView.setText( String.valueOf(dateToDisplay) );
-
-        TextView timeTextView = listitemview.findViewById(R.id.time );
-        timeTextView.setText( String.valueOf(timeToDisplay) );
-*/
-
         String dateBeforeSplit = currentStory.getDate();
         dateBeforeSplit = dateBeforeSplit.replace( "Z", "" );
 
@@ -85,8 +68,8 @@ public class NewsStoryListAdapter extends ArrayAdapter<NewsStory> {
         TextView categoryTextView = listitemview.findViewById( R.id.category );
         categoryTextView.setText( currentStory.getCategory() );
 
-        TextView subCategoryTextView = listitemview.findViewById( R.id.subcategory );
-        subCategoryTextView.setText( currentStory.getSubcategory() );
+        TextView authorTextView = listitemview.findViewById( R.id.author );
+        authorTextView.setText( currentStory.getAuthor() );
 
         return listitemview;
     }

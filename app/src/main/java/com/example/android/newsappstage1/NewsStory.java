@@ -9,17 +9,22 @@ public class NewsStory {
     private String headline;
     private String date;
     private String category;
-    private String subcategory;
     private String url;
-//    private String author;
+    private String author;
 
-    public NewsStory(String headline, String date, String category, String subcategory, String url) {
+    public NewsStory(String headline, String date, String category, String url) {
         this.headline = headline;
         this.date = date;
         this.category = category;
-        this.subcategory = subcategory;
         this.url = url;
-//        this.author = author;
+    }
+
+    public NewsStory(String headline, String date, String category, String url, String author) {
+        this.headline = headline;
+        this.date = date;
+        this.category = category;
+        this.url = url;
+        this.author = author;
     }
 
     public String getHeadline() {
@@ -34,12 +39,11 @@ public class NewsStory {
         return category;
     }
 
-    public String getSubcategory() {
-        return subcategory;
-    }
-
     public String getUrl() {
         return url;
     }
 
+    public String getAuthor() {
+        return author;
+    }
 }
