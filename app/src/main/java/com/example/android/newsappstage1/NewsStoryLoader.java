@@ -13,17 +13,19 @@ public class NewsStoryLoader extends AsyncTaskLoader<List<NewsStory>> {
 
     private String Url;
 
+    // Set the url to the current context's url
     public NewsStoryLoader(Context context, String url) {
         super( context );
         Url = url;
     }
 
-
+    // forceload once the loader starts loading
     @Override
     protected void onStartLoading() {
         forceLoad();
     }
 
+    // Get the story data on another thread
     @Override
     public List<NewsStory> loadInBackground() {
         if (Url == null) {

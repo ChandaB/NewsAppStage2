@@ -12,13 +12,14 @@ public class NewsStory {
     private String url;
     private String author;
 
-    public NewsStory(String headline, String date, String category, String url) {
-        this.headline = headline;
-        this.date = date;
-        this.category = category;
-        this.url = url;
-    }
-
+    /**
+     * Constructor for a News Story
+     * @param headline
+     * @param date
+     * @param category
+     * @param url
+     * @param author
+     */
     public NewsStory(String headline, String date, String category, String url, String author) {
         this.headline = headline;
         this.date = date;
@@ -27,6 +28,7 @@ public class NewsStory {
         this.author = author;
     }
 
+    // Getters for the News Story strings.
     public String getHeadline() {
         return headline;
     }

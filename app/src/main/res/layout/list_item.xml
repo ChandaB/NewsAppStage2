@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="wrap_content"
     app:cardBackgroundColor="@color/cardViewBackground"
-    android:dividerHeight="0.5px"
-    app:cardElevation="0dp"
     app:cardCornerRadius="5dp"
-    app:contentPadding="10dp"
+    app:cardElevation="4dp"
     app:cardPreventCornerOverlap="true"
     app:cardUseCompatPadding="true"
-    android:layout_height="wrap_content">
+    app:contentPadding="4dp">
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <LinearLayout
             android:id="@+id/list_item"
@@ -23,29 +23,22 @@
             android:layout_height="80dp"
             android:orientation="horizontal"
             android:paddingEnd="16dp"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
             android:paddingStart="16dp">
 
-            <LinearLayout
-                android:layout_width="49dp"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/category"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/textColorNewsDetail"
-                    tools:text="Category" />
-            </LinearLayout>
+            <TextView
+                android:id="@+id/category"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:textColor="@color/textColorNewsDetail"
+                tools:text="Category" />
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
-                android:layout_weight="1"
+                android:layout_weight=".9"
                 android:orientation="vertical">
 
                 <TextView
@@ -55,7 +48,7 @@
                     android:fontFamily="sans-serif-medium"
                     android:maxLines="3"
                     android:textColor="@color/textColorNewsHeadline"
-                    android:textSize="16sp"
+                    android:textSize="@dimen/headline"
                     tools:text="News Headline" />
 
                 <LinearLayout
@@ -66,17 +59,17 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Author: "
+                        android:text="@string/authorHeading"
                         android:textColor="@color/textColorNewsDetail"
-                        android:textSize="12sp" />
+                        android:textSize="@dimen/details" />
 
                     <TextView
                         android:id="@+id/author"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingLeft="4dp"
+                        android:paddingStart="4dp"
                         android:textColor="@color/textColorNewsDetail"
-                        android:textSize="12sp"
+                        android:textSize="@dimen/details"
                         tools:text="Author" />
 
                 </LinearLayout>
@@ -87,7 +80,6 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_weight=".3"
                 android:orientation="vertical">
@@ -96,18 +88,18 @@
                     android:id="@+id/date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="left"
-                    android:textSize="12sp"
+                    android:gravity="start"
                     android:textColor="@color/textColorNewsDetail"
-                    tools:text="Mar 6, 2010" />
+                    android:textSize="@dimen/details"
+                    tools:text="07-01-2018" />
 
                 <TextView
                     android:id="@+id/time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="left"
-                    android:textSize="12sp"
+                    android:gravity="start"
                     android:textColor="@color/textColorNewsDetail"
+                    android:textSize="@dimen/details"
                     tools:text="3:00 PM" />
 
             </LinearLayout>
@@ -119,10 +111,9 @@
             android:layout_height="wrap_content"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
-            android:text="Read Full Story"
-            android:textColor="@color/textColorNewsHeadline"
-            android:textAlignment="textEnd" />
+            android:text="@string/click_to_read_full_story"
+            android:textAlignment="textEnd"
+            android:textColor="@color/textColorNewsHeadline" />
 
-</LinearLayout>
-    </android.support.v7.widget.CardView>
-
+    </LinearLayout>
+</android.support.v7.widget.CardView>

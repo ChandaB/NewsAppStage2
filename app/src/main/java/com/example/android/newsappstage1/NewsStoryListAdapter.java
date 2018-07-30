@@ -1,7 +1,6 @@
 package com.example.android.newsappstage1;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,28 +21,32 @@ public class NewsStoryListAdapter extends ArrayAdapter<NewsStory> {
     String formattedDate;
     String formattedTime;
 
-    public NewsStoryListAdapter(@NonNull Context context, @NonNull List<NewsStory> stories) {
+    /**
+     * Constructor for news adapter
+     */
+    public NewsStoryListAdapter(Context context, List<NewsStory> stories) {
         super( context, 0, stories );
     }
 
-
+    /**
+     * Set the layout to the list_item layout and populate the data in the layout
+     */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View listitemview = convertView;
-        if(listitemview == null){
-            listitemview = LayoutInflater.from( getContext()).inflate( R.layout.list_item, parent, false );
+        if (listitemview == null) {
+            listitemview = LayoutInflater.from( getContext() ).inflate( R.layout.list_item, parent, false );
         }
 
+        // Create a new NewsStory object and get it's position
         NewsStory currentStory = getItem( position );
 
+        // Format the date to be populated in the date/time textviews
         String dateBeforeSplit = currentStory.getDate();
         dateBeforeSplit = dateBeforeSplit.replace( "Z", "" );
 
-        //2018-06-29T06:15:29Z
-
-
-       SimpleDateFormat inputFormat =  new SimpleDateFormat( "yyyy-MM-dd'T'HH:mm:ss");
-        SimpleDateFormat outputDate = new SimpleDateFormat( "MM-dd-yyyy");
+        SimpleDateFormat inputFormat = new SimpleDateFormat( "yyyy-MM-dd'T'HH:mm:ss" );
+        SimpleDateFormat outputDate = new SimpleDateFormat( "MM-dd-yyyy" );
         SimpleDateFormat outputTime = new SimpleDateFormat( "hh:mm a" );
 
         Date date = null;
@@ -56,18 +59,23 @@ public class NewsStoryListAdapter extends ArrayAdapter<NewsStory> {
         formattedDate = outputDate.format( date );
         formattedTime = outputTime.format( date );
 
+        // Populate the formatted date into the date textfield
         TextView dateTextView = listitemview.findViewById( R.id.date );
         dateTextView.setText( formattedDate );
 
-        TextView timeTextView = listitemview.findViewById(R.id.time );
+        // Populate the formatted time into the time textfield
+        TextView timeTextView = listitemview.findViewById( R.id.time );
         timeTextView.setText( formattedTime );
 
+        // Populate the headline in the textview
         TextView headlineTextView = listitemview.findViewById( R.id.header );
         headlineTextView.setText( currentStory.getHeadline() );
 
+        // Populate the category in the textview
         TextView categoryTextView = listitemview.findViewById( R.id.category );
         categoryTextView.setText( currentStory.getCategory() );
 
+        // Populate the author in the textview
         TextView authorTextView = listitemview.findViewById( R.id.author );
         authorTextView.setText( currentStory.getAuthor() );
 

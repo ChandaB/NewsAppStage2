@@ -2,4 +2,10 @@
     <string name="app_name">NewsApp Stage1</string>
     <string name="sorry_no_news_stories_available">Sorry, No News Stories Available at this time. Please check back later.</string>
     <string name="no_network">You currently have no network connection.\nPlease check your network.</string>
+    <string name="click_to_read_full_story">Click to Read Full Story</string>
+    <string name="most_recent_news_and_discussion_from_montreal_canada">Most recent News and Discussion from Montreal Canada</string>
+    <string name="news_headline">News Headline</string>
+    <string name="category">Category</string>
+    <string name="date_time">Date / Time</string>
+    <string name="authorHeading">Author:</string>
 </resources>

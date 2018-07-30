@@ -26,6 +26,9 @@ public class JSONParseUtils {
 
     public static final String LOG_TAG = JSONParseUtils.class.getName();
 
+    /**
+     * Default constructor
+     */
     public JSONParseUtils() {
     }
 
@@ -35,15 +38,15 @@ public class JSONParseUtils {
     private static URL createUrl(String stringUrl) {
         URL url = null;
         try {
-            url = new URL(stringUrl);
+            url = new URL( stringUrl );
         } catch (MalformedURLException e) {
-            Log.e(LOG_TAG, "Problem building the URL ", e);
+            Log.e( LOG_TAG, "Problem building the URL ", e );
         }
         return url;
     }
 
     /**
-     * Make an HTTP request to the given URL and return a String as the response.
+     * Make an HTTP request to the given URL and return a String as the JSON response.
      */
     private static String makeHttpRequest(URL url) throws IOException {
         String jsonResponse = "";
@@ -53,25 +56,29 @@ public class JSONParseUtils {
             return jsonResponse;
         }
 
+        //Initialize http connection
         HttpURLConnection urlConnection = null;
         InputStream inputStream = null;
         try {
             urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setReadTimeout(10000 /* milliseconds */);
-            urlConnection.setConnectTimeout(15000 /* milliseconds */);
-            urlConnection.setRequestMethod("GET");
+            urlConnection.setReadTimeout( 10000 /* milliseconds */ );
+            urlConnection.setConnectTimeout( 15000 /* milliseconds */ );
+            urlConnection.setRequestMethod( "GET" );
             urlConnection.connect();
 
             // If the request was successful (response code 200),
-            // then read the input stream and parse the response.
+            // then read the input stream and parse the response,
+            // else throw an error.
             if (urlConnection.getResponseCode() == 200) {
                 inputStream = urlConnection.getInputStream();
-                jsonResponse = readFromStream(inputStream);
+                jsonResponse = readFromStream( inputStream );
             } else {
-                Log.e(LOG_TAG, "Error response code: " + urlConnection.getResponseCode());
+                Log.e( LOG_TAG, "Error response code: " + urlConnection.getResponseCode() );
             }
+            //Log error if there is a problem getting JSON results
         } catch (IOException e) {
-            Log.e(LOG_TAG, "Problem retrieving the earthquake JSON results.", e);
+            Log.e( LOG_TAG, "Problem retrieving the JSON results.", e );
+            //cleanup connection
         } finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();
@@ -93,11 +100,11 @@ public class JSONParseUtils {
     private static String readFromStream(InputStream inputStream) throws IOException {
         StringBuilder output = new StringBuilder();
         if (inputStream != null) {
-            InputStreamReader inputStreamReader = new InputStreamReader(inputStream, Charset.forName("UTF-8"));
-            BufferedReader reader = new BufferedReader(inputStreamReader);
+            InputStreamReader inputStreamReader = new InputStreamReader( inputStream, Charset.forName( "UTF-8" ) );
+            BufferedReader reader = new BufferedReader( inputStreamReader );
             String line = reader.readLine();
             while (line != null) {
-                output.append(line);
+                output.append( line );
                 line = reader.readLine();
             }
         }
@@ -108,7 +115,7 @@ public class JSONParseUtils {
      * Return a list of {@link NewsStory} objects that has been built up from
      * parsing a JSON response.
      */
-    public static List<NewsStory> extractFromNewsStory(String jsonResponse ) {
+    public static List<NewsStory> extractFromNewsStory(String jsonResponse) {
 
         String author = "";
 
@@ -117,56 +124,60 @@ public class JSONParseUtils {
             return null;
         }
 
-        // Create an empty ArrayList that we can start adding earthquakes to
+        // Create an empty ArrayList that we can start adding stories to
         List<NewsStory> stories = new ArrayList<>();
 
         // Try to parse the JSON string response. If there's a problem with the way the JSON
         // is formatted, a JSONException exception object will be thrown.
         // Catch the exception so the app doesn't crash, and print the error message to the logs.
+        try {
 
+            // Create a JSON Object from the JSON response string
+            JSONObject initialJsonResponse = new JSONObject( jsonResponse );
+            JSONObject response = initialJsonResponse.getJSONObject( "response" );
 
-
-		        try {
-
-            //Create a JSON Object from the JSON response string
-          JSONObject initialJsonResponse = new JSONObject( jsonResponse );
-          JSONObject response = initialJsonResponse.getJSONObject( "response" );
-
-            //Extract the array associated with the features key
+            // Extract the array associated with the results key
             JSONArray storyArray = response.getJSONArray( "results" );
 
-//            JSONArray storyArray = new JSONArray( jsonResponse );
-
-//            Loop through each feature in the array
+            // Loop through each result in the array
             for (int i = 0; i < storyArray.length(); i++) {
                 int arraylength = storyArray.length();
                 Log.d( "ArrayLength ", Integer.toString( arraylength ) );
                 Log.d( "STORYARRAY", storyArray.getString( i ) );
-//            Get earthquake JSONObject at position i
+
+                // Get current story JSONObject at position i
                 JSONObject currentStory = storyArray.getJSONObject( i );
 
-                //JSONArray tagsArray = currentTag.getJSONArray( "tags" );
-//              JSONObject section = currentStory.getJSONObject( "section" );
-
+                // Get values from JSON keys
                 String headline = currentStory.getString( "webTitle" );
                 String date = currentStory.getString( "webPublicationDate" );
                 String category = currentStory.getString( "pillarName" );
                 String url = currentStory.getString( "webUrl" );
 
-                JSONArray tagsArray = currentStory.getJSONArray("tags");
-                if(tagsArray != null && tagsArray.length() > 0) {
-                for (int n = 0; n < tagsArray.length(); n++) {
-                    Log.d( "TAGSCONTENT", tagsArray.getString( n ) );
-                    JSONObject authorExistsCurrentStory = tagsArray.getJSONObject( n );
-                    int tagsArraylength = tagsArray.length();
-                    Log.d( "TagsArrayLength", Integer.toString( tagsArraylength ) );
-                    {
-                        author = authorExistsCurrentStory.getString( "webTitle" );
-                }}}else {
-                        author = "No author for this story";}
+                // Extract the array associated with the tags key
+                JSONArray tagsArray = currentStory.getJSONArray( "tags" );
 
+                // Loop through each key in the tags array
+                if (tagsArray != null && tagsArray.length() > 0) {
+                    for (int n = 0; n < tagsArray.length(); n++) {
+                        Log.d( "TAGSCONTENT", tagsArray.getString( n ) );
+                        JSONObject authorExistsCurrentStory = tagsArray.getJSONObject( n );
+                        int tagsArraylength = tagsArray.length();
+                        Log.d( "TagsArrayLength", Integer.toString( tagsArraylength ) );
+                        {
+                            // Get author value from webTitle JSON key
+                            author = authorExistsCurrentStory.getString( "webTitle" );
+                        }
+                    }
+                    // If no author (webTitle) is found, message will display
+                } else {
+                    author = "No author for this story";
+                }
+
+                // Create new NewsStory object with JSON results
                 NewsStory story = new NewsStory( headline, date, category, url, author );
 
+                // Add currentStory to the stories array
                 stories.add( story );
 
 
@@ -176,14 +187,17 @@ public class JSONParseUtils {
             // If an error is thrown when executing any of the above statements in the "try" block,
             // catch the exception here, so the app doesn't crash. Print a log message
             // with the message from the exception.
-            Log.e("JSONParseUtils", "Problem parsing the NewsStory JSON results", e);
+            Log.e( "JSONParseUtils", "Problem parsing the NewsStory JSON results", e );
         }
 
 
-        // Return the list of earthquakes
+        // Return the list of stories
         return stories;
     }
 
+    /**
+     * Create NewsStory list
+     * */
     public static List<NewsStory> fetchStoryData(String requestURL) {
         //Create the URL object
         URL url = createUrl( requestURL );
@@ -194,7 +208,7 @@ public class JSONParseUtils {
         try {
             jsonResponse = makeHttpRequest( url );
         } catch (IOException e) {
-            Log.e(LOG_TAG, "Problem making the HTTP request." , e);
+            Log.e( LOG_TAG, "Problem making the HTTP request.", e );
         }
 
         List<NewsStory> stories = extractFromNewsStory( jsonResponse );
