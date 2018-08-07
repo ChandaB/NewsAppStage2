@@ -1,4 +1,4 @@
-package com.example.android.newsappstage1;
+package com.example.android.newsappstage2;
 
 import android.text.TextUtils;
 import android.util.Log;
@@ -25,6 +25,8 @@ import java.util.List;
 public class JSONParseUtils {
 
     public static final String LOG_TAG = JSONParseUtils.class.getName();
+    public static String storyImageURL;
+    public static int thumbnailImage;
 
     /**
      * Default constructor
@@ -154,6 +156,19 @@ public class JSONParseUtils {
                 String category = currentStory.getString( "pillarName" );
                 String url = currentStory.getString( "webUrl" );
 
+                //Check to see if the JSON Object has a fields key, if it does, then parse the
+                //thumbnail image, if not, then set the storyImageURL to blank.
+                if (currentStory.has( "fields" )) {
+                    JSONObject currentFields = currentStory.getJSONObject( "fields" );
+                    storyImageURL = currentFields.getString( "thumbnail" );
+
+                } else {
+                    storyImageURL = "";
+                    //int NO_IMAGE_PROVIDED = Integer.parseInt(storyImageURL);
+                    //thumbnailImage = NO_IMAGE_PROVIDED;
+                }
+
+
                 // Extract the array associated with the tags key
                 JSONArray tagsArray = currentStory.getJSONArray( "tags" );
 
@@ -175,7 +190,7 @@ public class JSONParseUtils {
                 }
 
                 // Create new NewsStory object with JSON results
-                NewsStory story = new NewsStory( headline, date, category, url, author );
+                NewsStory story = new NewsStory( headline, date, category, url, author, storyImageURL );
 
                 // Add currentStory to the stories array
                 stories.add( story );

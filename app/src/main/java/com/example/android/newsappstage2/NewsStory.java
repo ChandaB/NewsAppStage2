@@ -1,4 +1,4 @@
-package com.example.android.newsappstage1;
+package com.example.android.newsappstage2;
 
 /**
  * Created by ChandaB on 7/26/2018.
@@ -11,6 +11,7 @@ public class NewsStory {
     private String category;
     private String url;
     private String author;
+    private String storyImageURL;
 
     /**
      * Constructor for a News Story
@@ -26,6 +27,16 @@ public class NewsStory {
         this.category = category;
         this.url = url;
         this.author = author;
+    }
+
+
+    public NewsStory(String headline, String date, String category, String url, String author, String storyImageURL) {
+        this.headline = headline;
+        this.date = date;
+        this.category = category;
+        this.url = url;
+        this.author = author;
+        this.storyImageURL = storyImageURL;
     }
 
     // Getters for the News Story strings.
@@ -47,5 +58,9 @@ public class NewsStory {
 
     public String getAuthor() {
         return author;
+    }
+
+    public String getStoryImageURL() {
+        return storyImageURL;
     }
 }

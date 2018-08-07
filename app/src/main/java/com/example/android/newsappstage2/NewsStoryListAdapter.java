@@ -1,12 +1,20 @@
-package com.example.android.newsappstage1;
+package com.example.android.newsappstage2;
 
+import android.content.AsyncTaskLoader;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.Image;
+import android.os.AsyncTask;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -59,6 +67,22 @@ public class NewsStoryListAdapter extends ArrayAdapter<NewsStory> {
         formattedDate = outputDate.format( date );
         formattedTime = outputTime.format( date );
 
+        //Code for images
+
+        ImageView thumbnailImage = listitemview.findViewById( R.id.thumbnail_image );
+
+/*
+        if (currentStory != null) {
+            new DownloadImageTask(thumbnailImage).execute(currentStory.getStoryImageURL());
+        }
+*/
+        if (currentStory.getStoryImageURL() != "") {
+            new DownloadImageTask(thumbnailImage).execute(currentStory.getStoryImageURL());
+            thumbnailImage.setVisibility( View.VISIBLE );
+        } else {
+            thumbnailImage.setVisibility( View.GONE );
+        }
+
         // Populate the formatted date into the date textfield
         TextView dateTextView = listitemview.findViewById( R.id.date );
         dateTextView.setText( formattedDate );
@@ -80,5 +104,30 @@ public class NewsStoryListAdapter extends ArrayAdapter<NewsStory> {
         authorTextView.setText( currentStory.getAuthor() );
 
         return listitemview;
+    }
+
+    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+        ImageView bitmapImage;
+        public DownloadImageTask(ImageView bitmapImage) {
+            this.bitmapImage = bitmapImage;
+        }
+
+        @Override
+        protected Bitmap doInBackground(String... urls) {
+            String urlDisplay = urls[0];
+            Bitmap bmp = null;
+            try {
+                InputStream in = new java.net.URL( urlDisplay ).openStream();
+                bmp = BitmapFactory.decodeStream( in );
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
+            return bmp;
+        }
+
+        protected void onPostExecute(Bitmap result) {
+            bitmapImage.setImageBitmap(result);
+        }
     }
 }

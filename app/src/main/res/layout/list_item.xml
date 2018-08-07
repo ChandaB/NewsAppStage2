@@ -18,6 +18,13 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <ImageView
+            android:id="@+id/thumbnail_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="centerCrop"
+            tools:text="thumbnail_image_here"/>
+
         <LinearLayout
             android:id="@+id/list_item"
             android:layout_width="match_parent"

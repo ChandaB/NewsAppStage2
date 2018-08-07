@@ -1,15 +1,20 @@
-package com.example.android.newsappstage1;
+package com.example.android.newsappstage2;
 
 import android.app.LoaderManager;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -21,7 +26,8 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements LoaderCallbacks<List<NewsStory>> {
 
     private static final int NEWS_STORY_LOADER_ID = 1;
-    String storyUrl = "https://content.guardianapis.com/search?order-by=newest&show-tags=contributor&q=Montreal&api-key=ddc3ebb7-dfc3-4307-9a14-8a73a96647c7";
+//    String storyUrl = "https://content.guardianapis.com/search?order-by=newest&show-tags=contributor&q=Montreal&api-key=ddc3ebb7-dfc3-4307-9a14-8a73a96647c7";
+    String storyUrl = "https://content.guardianapis.com/search?q=Montreal&show-tags=contributor&show-fields=thumbnail&api-key=ddc3ebb7-dfc3-4307-9a14-8a73a96647c7";
     private NewsStoryListAdapter listAdapter;
     private TextView emptyResultsTextView;
 
@@ -59,8 +65,6 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<L
 
             }
         } );
-
-
     }
 
     /**
@@ -128,13 +132,48 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<L
 
     }
 
-
     /**
      * Loader for news story
      */
     @Override
     public Loader<List<NewsStory>> onCreateLoader(int i, Bundle bundle) {
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+        String orderBy = sharedPrefs.getString(
+                getString( R.string.settings_order_by_key),
+                getString(R.string.settings_order_by_default));
+
+        // parse breaks apart the URI string that's passed into its parameter
+        Uri baseUri = Uri.parse(storyUrl);
+
+        // buildUpon prepares the baseUri that we just parsed so we can add query parameters to it
+        Uri.Builder uriBuilder = baseUri.buildUpon();
+
+        // Append query parameter and its value. For example, the `format=geojson`
+        uriBuilder.appendQueryParameter("order-by", orderBy);
+//        uriBuilder.appendQueryParameter("limit", "10");
+  //      uriBuilder.appendQueryParameter("minmag", minMagnitude);
+    //    uriBuilder.appendQueryParameter("orderby", orderBy);
+
         // Create a new loader for the given URL
-        return new NewsStoryLoader( this, storyUrl );
+        return new NewsStoryLoader( this, uriBuilder.toString() );
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the Options Menu specified in XML
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if(id == R.id.action_settings) {
+            Intent settingsIntent = new Intent( this, SettingsActivity.class );
+            startActivity( settingsIntent );
+            return true;
+        }
+        return super.onOptionsItemSelected( item );
     }
 }

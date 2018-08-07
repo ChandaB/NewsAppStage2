@@ -1,7 +1,8 @@
-package com.example.android.newsappstage1;
+package com.example.android.newsappstage2;
 
 import android.content.AsyncTaskLoader;
 import android.content.Context;
+import android.util.Log;
 
 import java.util.List;
 
@@ -17,6 +18,7 @@ public class NewsStoryLoader extends AsyncTaskLoader<List<NewsStory>> {
     public NewsStoryLoader(Context context, String url) {
         super( context );
         Url = url;
+        Log.d("URL GEN AFTER URI PARSE", url);
     }
 
     // forceload once the loader starts loading

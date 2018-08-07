@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">NewsApp Stage1</string>
+    <string name="app_name">NewsApp Stage2</string>
     <string name="sorry_no_news_stories_available">Sorry, No News Stories Available at this time. Please check back later.</string>
     <string name="no_network">You currently have no network connection.\nPlease check your network.</string>
     <string name="click_to_read_full_story">Click to Read Full Story</string>
@@ -8,4 +8,23 @@
     <string name="category">Category</string>
     <string name="date_time">Date / Time</string>
     <string name="authorHeading">Author:</string>
+
+    <!--Settings Menu Strings-->
+    <string name="settings_menu_item">Settings</string>
+    <string name="settings_title">News Reader Settings</string>
+    <string name="settings_publication_date_sort_label">Sort by Publication Date</string>
+    <string name="settings_publication_date_sort_key" translatable="false">publicationDate_sort</string>
+    <string name="settings_headline_sort_default" translatable="false">newest</string>
+
+    <!-- Strings For Order-By Preference [CHAR LIMIT=30] -->
+    <string name="settings_order_by_label">Order By</string>
+    <string name="settings_order_by_key" translatable="false">order_by</string>
+    <string name="settings_order_by_oldest_label" translatable="false">Oldest</string>
+    <string name="settings_order_by_oldest_value" translatable="false">oldest</string>
+    <string name="settings_order_by_newest_label" translatable="false">Newest</string>
+    <string name="settings_order_by_newest_value" translatable="false">newest</string>
+    <string name="settings_order_by_relevance_label" translatable="false">Relevance</string>
+    <string name="settings_order_by_relevance_value" translatable="false">relevance</string>
+    <string name="settings_order_by_default" translatable="false">@string/settings_orderby_value</string>
+    <string name="settings_orderby_value" translatable="false">orderby</string>
 </resources>
