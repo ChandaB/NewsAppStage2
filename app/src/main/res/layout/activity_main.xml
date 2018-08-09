@@ -1,56 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-    <TextView
-        android:id="@+id/appPurpose"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:paddingTop="16dp"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:paddingBottom="8dp"
-        android:textSize="20sp"
-        android:text="@string/most_recent_news_and_discussion_from_montreal_canada"/>
+
     <LinearLayout
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp"
-        android:paddingBottom="16dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
         <TextView
-            android:id="@+id/categoryHeader"
-            android:layout_width="80dp"
+            android:id="@+id/appPurpose"
             android:layout_height="wrap_content"
-            android:text="@string/category" />
-        <TextView
-            android:id="@+id/summaryAuthorHeaderr"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
+            android:paddingTop="16dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingBottom="8dp"
+            android:textSize="20sp"
+            android:text="@string/news_headliner" />
+
+        <LinearLayout
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingBottom="16dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight=".9"
-            android:text="@string/news_headline" />
-        <TextView
-            android:id="@+id/dateTimeHeader"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight=".3"
-            android:text="@string/date_time" />
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/categoryHeader"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:text="@string/category" />
+
+            <TextView
+                android:id="@+id/summaryAuthorHeader"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".9"
+                android:text="@string/news_headline" />
+
+            <TextView
+                android:id="@+id/dateTimeHeader"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".3"
+                android:text="@string/date_time" />
+        </LinearLayout>
+        <!-- Layout for a list of news stories -->
+        <ListView
+            android:id="@+id/list"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@null"
+            android:dividerHeight="0dp" />
     </LinearLayout>
-<!-- Layout for a list of news stories -->
-<ListView
-    android:id="@+id/list"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:divider="@null"
-    android:dividerHeight="0dp"/>
-</LinearLayout>
 
     <!-- Empty view is only visible when the list has no items. -->
     <TextView
@@ -59,14 +64,14 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:textAlignment="center"
-        android:textAppearance="?android:textAppearanceMedium"/>
+        android:textAppearance="?android:textAppearanceMedium" />
 
+    <!-- Progress bar view is displayed while results are loading -->
     <ProgressBar
         android:id="@+id/loading_spinner"
         style="@style/Widget.AppCompat.ProgressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"/>
-
+        android:layout_centerInParent="true" />
 
 </RelativeLayout>

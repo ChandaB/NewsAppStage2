@@ -18,7 +18,7 @@ public class NewsStoryLoader extends AsyncTaskLoader<List<NewsStory>> {
     public NewsStoryLoader(Context context, String url) {
         super( context );
         Url = url;
-        Log.d("URL GEN AFTER URI PARSE", url);
+        Log.d( "URL AFTER URI PARSE", url );
     }
 
     // forceload once the loader starts loading

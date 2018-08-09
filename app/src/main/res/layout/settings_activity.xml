@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<fragment
-    android:id="@+id/settingsActivity"
+<fragment android:id="@+id/settingsActivity"
     android:name="com.example.android.newsappstage2.SettingsActivity$NewsAppPreferencesFragment"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"

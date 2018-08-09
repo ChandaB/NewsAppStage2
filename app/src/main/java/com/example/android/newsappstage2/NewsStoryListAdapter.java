@@ -1,10 +1,8 @@
 package com.example.android.newsappstage2;
 
-import android.content.AsyncTaskLoader;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.Image;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -68,17 +66,14 @@ public class NewsStoryListAdapter extends ArrayAdapter<NewsStory> {
         formattedTime = outputTime.format( date );
 
         //Code for images
-
+        //Set imageview to the layout's thumbnail_image
         ImageView thumbnailImage = listitemview.findViewById( R.id.thumbnail_image );
 
-/*
-        if (currentStory != null) {
-            new DownloadImageTask(thumbnailImage).execute(currentStory.getStoryImageURL());
-        }
-*/
+        //If the storyimageURL is not blank, get the imageURL and set the imageview to visible
         if (currentStory.getStoryImageURL() != "") {
-            new DownloadImageTask(thumbnailImage).execute(currentStory.getStoryImageURL());
+            new DownloadImageTask( thumbnailImage ).execute( currentStory.getStoryImageURL() );
             thumbnailImage.setVisibility( View.VISIBLE );
+            //If the storyimageURL is blank, then set the imageview to gone and don't display any image
         } else {
             thumbnailImage.setVisibility( View.GONE );
         }
@@ -106,12 +101,15 @@ public class NewsStoryListAdapter extends ArrayAdapter<NewsStory> {
         return listitemview;
     }
 
+    //Class to handle downloading an image from a URL
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
         ImageView bitmapImage;
+
         public DownloadImageTask(ImageView bitmapImage) {
             this.bitmapImage = bitmapImage;
         }
 
+        //Grab the image URL, return a bitmap image
         @Override
         protected Bitmap doInBackground(String... urls) {
             String urlDisplay = urls[0];
@@ -120,14 +118,15 @@ public class NewsStoryListAdapter extends ArrayAdapter<NewsStory> {
                 InputStream in = new java.net.URL( urlDisplay ).openStream();
                 bmp = BitmapFactory.decodeStream( in );
             } catch (Exception e) {
-                Log.e("Error", e.getMessage());
+                Log.e( "Error", e.getMessage() );
                 e.printStackTrace();
             }
             return bmp;
         }
 
+        //set the image after download
         protected void onPostExecute(Bitmap result) {
-            bitmapImage.setImageBitmap(result);
+            bitmapImage.setImageBitmap( result );
         }
     }
 }

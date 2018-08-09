@@ -26,7 +26,6 @@ public class JSONParseUtils {
 
     public static final String LOG_TAG = JSONParseUtils.class.getName();
     public static String storyImageURL;
-    public static int thumbnailImage;
 
     /**
      * Default constructor
@@ -153,7 +152,7 @@ public class JSONParseUtils {
                 // Get values from JSON keys
                 String headline = currentStory.getString( "webTitle" );
                 String date = currentStory.getString( "webPublicationDate" );
-                String category = currentStory.getString( "pillarName" );
+                String category = currentStory.getString( "sectionName" );
                 String url = currentStory.getString( "webUrl" );
 
                 //Check to see if the JSON Object has a fields key, if it does, then parse the
@@ -164,10 +163,7 @@ public class JSONParseUtils {
 
                 } else {
                     storyImageURL = "";
-                    //int NO_IMAGE_PROVIDED = Integer.parseInt(storyImageURL);
-                    //thumbnailImage = NO_IMAGE_PROVIDED;
                 }
-
 
                 // Extract the array associated with the tags key
                 JSONArray tagsArray = currentStory.getJSONArray( "tags" );
@@ -212,7 +208,7 @@ public class JSONParseUtils {
 
     /**
      * Create NewsStory list
-     * */
+     */
     public static List<NewsStory> fetchStoryData(String requestURL) {
         //Create the URL object
         URL url = createUrl( requestURL );

@@ -12,7 +12,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,11 +22,15 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The News App Stage2 uses The Guardian api to obtain articles from their database along with images
+ * accompanying the articles.  All images and retrieved content are courtesy of The Guardian.
+ */
+
 public class MainActivity extends AppCompatActivity implements LoaderCallbacks<List<NewsStory>> {
 
     private static final int NEWS_STORY_LOADER_ID = 1;
-//    String storyUrl = "https://content.guardianapis.com/search?order-by=newest&show-tags=contributor&q=Montreal&api-key=ddc3ebb7-dfc3-4307-9a14-8a73a96647c7";
-    String storyUrl = "https://content.guardianapis.com/search?q=Montreal&show-tags=contributor&show-fields=thumbnail&api-key=ddc3ebb7-dfc3-4307-9a14-8a73a96647c7";
+    private String storyUrl = "https://content.guardianapis.com/search?&show-tags=contributor&show-fields=thumbnail&api-key=ddc3ebb7-dfc3-4307-9a14-8a73a96647c7";
     private NewsStoryListAdapter listAdapter;
     private TextView emptyResultsTextView;
 
@@ -93,8 +96,8 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<L
             emptyResultsTextView.setText( R.string.no_network );
 
             // Hide loading indicator because the data has been loaded
-            View loadingIndicator = findViewById(R.id.loading_spinner);
-            loadingIndicator.setVisibility(View.GONE);
+            View loadingIndicator = findViewById( R.id.loading_spinner );
+            loadingIndicator.setVisibility( View.GONE );
         }
     }
 
@@ -105,8 +108,8 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<L
     public void onLoadFinished(Loader<List<NewsStory>> loader, List<NewsStory> stories) {
 
         // Hide loading indicator because the data has been loaded
-        View loadingIndicator = findViewById(R.id.loading_spinner);
-        loadingIndicator.setVisibility(View.GONE);
+        View loadingIndicator = findViewById( R.id.loading_spinner );
+        loadingIndicator.setVisibility( View.GONE );
 
         // Set empty state textview to display when no results found
         emptyResultsTextView.setText( R.string.sorry_no_news_stories_available );
@@ -123,7 +126,6 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<L
     }
 
     /**
-     *
      * @param loader to clear the adapter
      */
     @Override
@@ -137,23 +139,32 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<L
      */
     @Override
     public Loader<List<NewsStory>> onCreateLoader(int i, Bundle bundle) {
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences( this );
 
         String orderBy = sharedPrefs.getString(
-                getString( R.string.settings_order_by_key),
-                getString(R.string.settings_order_by_default));
+                getString( R.string.settings_order_by_key ),
+                getString( R.string.settings_order_by_default ) );
+
+        String searchTerm = sharedPrefs.getString(
+                getString( R.string.settings_search_term_key ),
+                getString( R.string.settings_search_term_default )
+        );
+
+        String filterByCategory = sharedPrefs.getString(
+                getString( R.string.settings_filter_by_category_key ),
+                getString( R.string.settings_filter_by_category_default )
+        );
 
         // parse breaks apart the URI string that's passed into its parameter
-        Uri baseUri = Uri.parse(storyUrl);
+        Uri baseUri = Uri.parse( storyUrl );
 
         // buildUpon prepares the baseUri that we just parsed so we can add query parameters to it
         Uri.Builder uriBuilder = baseUri.buildUpon();
 
-        // Append query parameter and its value. For example, the `format=geojson`
-        uriBuilder.appendQueryParameter("order-by", orderBy);
-//        uriBuilder.appendQueryParameter("limit", "10");
-  //      uriBuilder.appendQueryParameter("minmag", minMagnitude);
-    //    uriBuilder.appendQueryParameter("orderby", orderBy);
+        // Append query parameter and its value to the URI
+        uriBuilder.appendQueryParameter( "q", "\"" + searchTerm + "\"" );
+        uriBuilder.appendQueryParameter( "order-by", orderBy );
+        uriBuilder.appendQueryParameter( "section", filterByCategory );
 
         // Create a new loader for the given URL
         return new NewsStoryLoader( this, uriBuilder.toString() );
@@ -162,14 +173,15 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<L
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the Options Menu specified in XML
-        getMenuInflater().inflate(R.menu.menu, menu);
+        getMenuInflater().inflate( R.menu.menu, menu );
         return true;
     }
 
+    //Open the settings menu
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if(id == R.id.action_settings) {
+        if (id == R.id.action_settings) {
             Intent settingsIntent = new Intent( this, SettingsActivity.class );
             startActivity( settingsIntent );
             return true;
