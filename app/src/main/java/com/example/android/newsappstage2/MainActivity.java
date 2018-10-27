@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements LoaderCallbacks<L
                 NewsStory story = listAdapter.getItem( position );
 
                 Uri NewsStoryUri = Uri.parse( story.getUrl() );
-
+                //This is actually a fragment
                 Intent i = new Intent( Intent.ACTION_VIEW, NewsStoryUri );
 
                 startActivity( i );
